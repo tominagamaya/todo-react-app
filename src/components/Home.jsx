@@ -5,7 +5,7 @@ const Home = () => {
   return (
     <>
       <h1>Todo List</h1>
-      <button>
+      <button type="button">
         <Link to="/todolist">クリックしてください</Link>
       </button>
     </>
