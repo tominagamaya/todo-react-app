@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, MenuItem, getNativeSelectUtilityClasses } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, MenuItem } from '@mui/material';
 import FormLabel from '@mui/material/FormLabel';
 import Select from '@mui/material/Select';
 import '../App.css';
@@ -32,6 +32,11 @@ const TodoList = () => {
     const title = document.getElementById("todo").value;
     const date = document.getElementById("date").value;
     setTask([...tasks, {id: tasks.length + 1, title: title, date: date, state: 1}]);
+  }
+
+  const deleteTask = (deleteId) => {
+    const updateTasks = tasks.filter((value) => value.id !== deleteId);
+    setTask(updateTasks);
   }
 
   return (
@@ -79,7 +84,7 @@ const TodoList = () => {
                     </Select>
                   </TableCell>
                   <TableCell>
-                    <Button variant="outlined" color="error">削除</Button>
+                    <Button variant="outlined" color="error" onClick={() => deleteTask(task.id)}>削除</Button>
                   </TableCell>
                 </TableRow>
               ))}
