@@ -1,12 +1,38 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, MenuItem, getNativeSelectUtilityClasses } from '@mui/material';
 import FormLabel from '@mui/material/FormLabel';
+import Select from '@mui/material/Select';
 import '../App.css';
 
 const TodoList = () => {
-  const [task, setTask] = useState("");
+  const [tasks, setTask] = useState([]);
+  
+  useEffect(() => {
+    setTask([{id: 1, title: '洗濯する', date: "2022-10-21", state: 1},
+    {id: 2, title: '卵を買う', date: "2022-10-22", state: 2}
+    ]);
+  }, []);
+
+  const handleChange = (targetId, event) => {
+    const updateTasks = [];
+    tasks.map((value) => {
+      if (value.id === targetId) {
+        updateTasks.push({id: value.id, title: value.title, date: value.date, state: event.target.value})
+      } else {
+        updateTasks.push(value);
+      }
+    })
+    setTask(updateTasks);
+  }
+
+  const addTask = () => {
+    //todo: useRefを使う
+    const title = document.getElementById("todo").value;
+    const date = document.getElementById("date").value;
+    setTask([...tasks, {id: tasks.length + 1, title: title, date: date, state: 1}]);
+  }
 
   return (
     <div className="todo">
@@ -21,7 +47,7 @@ const TodoList = () => {
           <TextField id="date" size="small" type="date" variant="outlined" />
         </div>
         <div className="todo-input-content">
-          <Button id="submit" color="success" variant="contained" sx={{ marginLeft: 3 }}>追加</Button>
+          <Button id="submit" color="success" variant="contained" sx={{ marginLeft: 3 }} onClick={addTask}>追加</Button>
         </div>
       </form>
       <div>
@@ -36,14 +62,27 @@ const TodoList = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                <TableCell>洗濯をする</TableCell>
-                  <TableCell align="center">2022-10-14</TableCell>
-                  <TableCell align="center">未着手</TableCell>
+              {tasks.map((task) => (
+                <TableRow key={task.id}>
+                  <TableCell>{task.title}</TableCell>
+                  <TableCell align="center">{task.date}</TableCell>
+                  <TableCell align="center">
+                    <Select
+                      id="todo-state"
+                      value={task.state}
+                      onChange={(e) => handleChange(task.id, e)}
+                      sx={{ fontSize: 14, height: 40, width: 90 }}
+                    >
+                      <MenuItem value={1}>未着手</MenuItem>
+                      <MenuItem value={2}>着手中</MenuItem>
+                      <MenuItem value={3}>完了</MenuItem>
+                    </Select>
+                  </TableCell>
                   <TableCell>
                     <Button variant="outlined" color="error">削除</Button>
                   </TableCell>
-              </TableRow>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
