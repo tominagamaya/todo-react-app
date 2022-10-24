@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, MenuItem } from '@mui/material';
@@ -8,6 +8,8 @@ import '../App.css';
 
 const TodoList = () => {
   const [tasks, setTask] = useState([]);
+  const inputTaskRef = useRef("");
+  const inputDateRef = useRef("");
   
   useEffect(() => {
     setTask([{id: 1, title: '洗濯する', date: "2022-10-21", state: 1},
@@ -28,10 +30,12 @@ const TodoList = () => {
   }
 
   const addTask = () => {
-    //todo: useRefを使う
-    const title = document.getElementById("todo").value;
-    const date = document.getElementById("date").value;
-    setTask([...tasks, {id: tasks.length + 1, title: title, date: date, state: 1}]);
+    setTask([...tasks, 
+      {id: tasks.length + 1, 
+        title: inputTaskRef.current.value, 
+        date: inputDateRef.current.value,
+        state: 1}
+      ]);
   }
 
   const deleteTask = (deleteId) => {
@@ -47,11 +51,24 @@ const TodoList = () => {
       <form className="todo-input-form">
         <div className="todo-input-item">
           <FormLabel sx={{ fontSize: 14 }}>タスク名</FormLabel>
-          <TextField id="todo" size="small" stype="text" variant="outlined" sx={{ height: 20, marginTop: 1 }} />
+          <TextField 
+            inputRef={inputTaskRef}
+            id="todo" size="small"
+            stype="text"
+            variant="outlined"
+            sx={{ height: 20, marginTop: 1 }}
+          />
         </div>
         <div className="todo-input-date">
           <FormLabel sx={{ fontSize: 14 }}>期日</FormLabel>
-          <TextField id="date" size="small" type="date" variant="outlined" sx={{ height: 20, width: 150, marginTop: 1 }} />
+          <TextField
+            inputRef={inputDateRef}
+            id="date"
+            size="small"
+            type="date"
+            variant="outlined"
+            sx={{ height: 20, width: 150, marginTop: 1 }}
+          />
         </div>
         <div className="todo-input-content">
           <Button
