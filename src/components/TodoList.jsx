@@ -17,7 +17,7 @@ const TodoList = () => {
 
   const handleChange = (targetId, event) => {
     const updateTasks = [];
-    tasks.map((value) => {
+    tasks.forEach((value) => {
       if (value.id === targetId) {
         updateTasks.push({id: value.id, title: value.title, date: value.date, state: event.target.value})
       } else {
@@ -39,20 +39,30 @@ const TodoList = () => {
     setTask(updateTasks);
   }
 
+  //todo: 入力エラーチェック処理を追加
+
   return (
     <div className="todo">
       <h1>Todo List</h1>
       <form className="todo-input-form">
-        <div>
-          <FormLabel sx={{ fontSize: 14, padding: 2 }}>タスク名</FormLabel>
-          <TextField id="todo" size="small" stype="text" variant="outlined" sx={{ height: 20 }} />
+        <div className="todo-input-item">
+          <FormLabel sx={{ fontSize: 14 }}>タスク名</FormLabel>
+          <TextField id="todo" size="small" stype="text" variant="outlined" sx={{ height: 20, marginTop: 1 }} />
         </div>
-        <div>
-          <FormLabel sx={{ fontSize: 14, padding: 2 }}>期日</FormLabel>
-          <TextField id="date" size="small" type="date" variant="outlined" />
+        <div className="todo-input-date">
+          <FormLabel sx={{ fontSize: 14 }}>期日</FormLabel>
+          <TextField id="date" size="small" type="date" variant="outlined" sx={{ height: 20, width: 150, marginTop: 1 }} />
         </div>
         <div className="todo-input-content">
-          <Button id="submit" color="success" variant="contained" sx={{ marginLeft: 3 }} onClick={addTask}>追加</Button>
+          <Button
+            id="submit"
+            color="success"
+            variant="contained"
+            sx={{ marginTop: 3.6, height: 40 }}
+            onClick={addTask}
+          >
+          追加
+          </Button>
         </div>
       </form>
       <div>

@@ -23,6 +23,15 @@
   display: flex;
   padding-top: 20px;
 }
+.todo-input-item {
+  display:  block;
+  width: 200px;
+  margin-right: 10px;
+}
+.todo-input-date {
+  display:  block;
+  width: 165px;
+}
 .todo-input-content {
   padding-bottom: 80px;
 }
