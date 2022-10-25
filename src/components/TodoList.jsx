@@ -7,6 +7,7 @@ import Select from '@mui/material/Select';
 import '../App.css';
 
 const TodoList = () => {
+  const [error, setError] = useState("");
   const [tasks, setTask] = useState([]);
   const inputTaskRef = useRef("");
   const inputDateRef = useRef("");
@@ -30,6 +31,11 @@ const TodoList = () => {
   }
 
   const addTask = () => {
+    if (inputTaskRef.current.value.trim().length === 0) {
+      setError("タスク名を入力してください")
+      return
+    }
+    setError("");
     setTask([...tasks, 
       {id: tasks.length + 1, 
         title: inputTaskRef.current.value, 
@@ -43,8 +49,6 @@ const TodoList = () => {
     setTask(updateTasks);
   }
 
-  //todo: 入力エラーチェック処理を追加
-
   return (
     <div className="todo">
       <h1>Todo List</h1>
@@ -56,8 +60,9 @@ const TodoList = () => {
             id="todo" size="small"
             stype="text"
             variant="outlined"
-            sx={{ height: 20, marginTop: 1 }}
+            sx={{ height: 20, marginTop: 1, marginBottom: 3 }}
           />
+          {error && <FormLabel color="error" error={true} sx={{ fontSize: 13 }}>{error}</FormLabel>}
         </div>
         <div className="todo-input-date">
           <FormLabel sx={{ fontSize: 14 }}>期日</FormLabel>
