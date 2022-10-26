@@ -42,6 +42,8 @@ const TodoList = () => {
         date: inputDateRef.current.value,
         state: 1}
       ]);
+      inputTaskRef.current.value = "";
+      inputDateRef.current.value = "";
   }
 
   const deleteTask = (deleteId) => {
